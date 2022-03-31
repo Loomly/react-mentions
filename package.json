@@ -4,7 +4,7 @@
   "description": "React mentions input",
   "main": "src/index.js",
   "files": [
-    "dist"
+    "src"
   ],
   "scripts": {
     "build": "preconstruct build",
