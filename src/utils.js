@@ -275,11 +275,11 @@ export const applyChangeToValue = (
   let oldPlainTextValue = getPlainText(value, markup, displayTransform, regex)
 
   let lengthDelta = oldPlainTextValue.length - plainTextValue.length
-  if (selectionStartBeforeChange === 'undefined') {
+  if (selectionStartBeforeChange === null) {
     selectionStartBeforeChange = selectionEndAfterChange + lengthDelta
   }
 
-  if (selectionEndBeforeChange === 'undefined') {
+  if (selectionEndBeforeChange === null) {
     selectionEndBeforeChange = selectionStartBeforeChange
   }
 
