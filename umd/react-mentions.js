@@ -1,5 +1,5 @@
 /*!
- * react-mentions v0.0.0-development - https://github.com/signavio/react-mentions
+ * react-mentions v2.4.2 - https://github.com/signavio/react-mentions
  * BSD-3-Clause Licensed
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2484,20 +2484,21 @@ var ContextTypes = exports.ContextTypes = (_ContextTypes = {}, _defineProperty(_
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return escapeRegex; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return spliceString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return spliceString; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getComputedStyleLengthProp; });
 /* unused harmony export getPositionOfCapturingGroup */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return iterateMentionsMarkup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return mapPlainTextIndex; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return iterateMentionsMarkup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return mapPlainTextIndex; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return findStartOfMentionInPlainText; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return applyChangeToValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return getPlainText; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getMentions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getEndOfLastMention; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return makeMentionsMarkup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return makeMentionsMarkup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return countSuggestions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return getSuggestions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return getSuggestion; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return isIE; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_isNumber__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_isNumber___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_isNumber__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_isFinite__ = __webpack_require__(291);
@@ -2835,6 +2836,10 @@ var getSuggestion = function getSuggestion(suggestions, index) {
       };
     }));
   }, [])[index];
+};
+
+var isIE = function isIE() {
+  return !!document.documentMode;
 };
 
 /***/ }),
@@ -5617,11 +5622,13 @@ var MentionsInput = (_temp = _class = function (_React$Component) {
   };
 
   this.handleChange = function (ev) {
-    // if we are inside iframe, we need to find activeElement within its contentDocument
-    var currentDocument = document.activeElement && document.activeElement.contentDocument || document;
-    if (currentDocument.activeElement !== ev.target) {
-      // fix an IE bug (blur from empty input element with placeholder attribute trigger "input" event)
-      return;
+    if (Object(__WEBPACK_IMPORTED_MODULE_9__utils__["k" /* isIE */])()) {
+      // if we are inside iframe, we need to find activeElement within its contentDocument
+      var currentDocument = document.activeElement && document.activeElement.contentDocument || document;
+      if (currentDocument.activeElement !== ev.target) {
+        // fix an IE bug (blur from empty input element with placeholder attribute trigger "input" event)
+        return;
+      }
     }
 
     var value = _this3.props.value || '';
@@ -5904,7 +5911,7 @@ var MentionsInput = (_temp = _class = function (_React$Component) {
         children = _props6.children,
         regex = _props6.regex;
 
-    var positionInValue = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["m" /* mapPlainTextIndex */])(value, markup, caretPosition, 'NULL', displayTransform, regex);
+    var positionInValue = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["n" /* mapPlainTextIndex */])(value, markup, caretPosition, 'NULL', displayTransform, regex);
 
     // If caret is inside of mention, do not query
     if (positionInValue === null) {
@@ -5988,13 +5995,13 @@ var MentionsInput = (_temp = _class = function (_React$Component) {
         displayTransform = _props7.displayTransform,
         regex = _props7.regex;
 
-    var start = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["m" /* mapPlainTextIndex */])(value, markup, querySequenceStart, 'START', displayTransform, regex);
+    var start = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["n" /* mapPlainTextIndex */])(value, markup, querySequenceStart, 'START', displayTransform, regex);
     var end = start + querySequenceEnd - querySequenceStart;
-    var insert = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["l" /* makeMentionsMarkup */])(markup, suggestion.id, suggestion.display, mentionDescriptor.props.type);
+    var insert = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["m" /* makeMentionsMarkup */])(markup, suggestion.id, suggestion.display, mentionDescriptor.props.type);
     if (mentionDescriptor.props.appendSpaceOnAdd) {
       insert = insert + ' ';
     }
-    var newValue = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["n" /* spliceString */])(value, start, end, insert);
+    var newValue = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["o" /* spliceString */])(value, start, end, insert);
 
     // Refocus input and set caret position to end of mention
     _this3.inputRef.focus();
@@ -6013,7 +6020,7 @@ var MentionsInput = (_temp = _class = function (_React$Component) {
     // Propagate change
     var eventMock = { target: { value: newValue } };
     var mentions = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["g" /* getMentions */])(newValue, markup, displayTransform, regex);
-    var newPlainTextValue = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["n" /* spliceString */])(plainTextValue, querySequenceStart, querySequenceEnd, displayValue);
+    var newPlainTextValue = Object(__WEBPACK_IMPORTED_MODULE_9__utils__["o" /* spliceString */])(plainTextValue, querySequenceStart, querySequenceEnd, displayValue);
 
     _this3.executeOnChange(eventMock, newValue, newPlainTextValue, mentions);
 
@@ -31711,7 +31718,7 @@ var Highlighter = (_temp = _class = function (_Component) {
 
     var caretPositionInMarkup = void 0;
     if (selection.start === selection.end) {
-      caretPositionInMarkup = Object(__WEBPACK_IMPORTED_MODULE_5__utils__["m" /* mapPlainTextIndex */])(value, markup, selection.start, 'START', displayTransform, regex);
+      caretPositionInMarkup = Object(__WEBPACK_IMPORTED_MODULE_5__utils__["n" /* mapPlainTextIndex */])(value, markup, selection.start, 'START', displayTransform, regex);
     }
 
     var resultComponents = [];
@@ -31745,7 +31752,7 @@ var Highlighter = (_temp = _class = function (_Component) {
       components.push(_this2.getMentionComponentForMatch(id, display, type, key));
     };
 
-    Object(__WEBPACK_IMPORTED_MODULE_5__utils__["k" /* iterateMentionsMarkup */])(value, markup, textIteratee, mentionIteratee, displayTransform, regex);
+    Object(__WEBPACK_IMPORTED_MODULE_5__utils__["l" /* iterateMentionsMarkup */])(value, markup, textIteratee, mentionIteratee, displayTransform, regex);
 
     // append a span containing a space, to ensure the last text line has the correct height
     components.push(' ');

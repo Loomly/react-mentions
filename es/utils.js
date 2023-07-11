@@ -330,3 +330,7 @@ export var getSuggestion = function getSuggestion(suggestions, index) {
     }));
   }, [])[index];
 };
+
+export var isIE = function isIE() {
+  return !!document.documentMode;
+};

@@ -480,3 +480,5 @@ export const getSuggestion = (suggestions, index) =>
     ],
     []
   )[index]
+
+export const isIE = () => !!document.documentMode

@@ -23,6 +23,7 @@ import {
   mapPlainTextIndex,
   spliceString,
   makeMentionsMarkup,
+  isIE,
 } from './utils'
 import SuggestionsOverlay from './SuggestionsOverlay'
 import Highlighter from './Highlighter'
@@ -296,13 +297,15 @@ class MentionsInput extends React.Component {
 
   // Handle input element's change event
   handleChange = ev => {
-    // if we are inside iframe, we need to find activeElement within its contentDocument
-    const currentDocument =
-      (document.activeElement && document.activeElement.contentDocument) ||
-      document
-    if (currentDocument.activeElement !== ev.target) {
-      // fix an IE bug (blur from empty input element with placeholder attribute trigger "input" event)
-      return
+    if (isIE()) {
+      // if we are inside iframe, we need to find activeElement within its contentDocument
+      const currentDocument =
+        (document.activeElement && document.activeElement.contentDocument) ||
+        document
+      if (currentDocument.activeElement !== ev.target) {
+        // fix an IE bug (blur from empty input element with placeholder attribute trigger "input" event)
+        return
+      }
     }
 
     const value = this.props.value || ''

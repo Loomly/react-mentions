@@ -20,7 +20,7 @@ import isNumber from 'lodash/isNumber';
 
 import { defaultStyle } from 'substyle';
 
-import { escapeRegex, getPlainText, applyChangeToValue, findStartOfMentionInPlainText, getComputedStyleLengthProp, getMentions, countSuggestions, getSuggestion, getEndOfLastMention, mapPlainTextIndex, spliceString, makeMentionsMarkup } from './utils';
+import { escapeRegex, getPlainText, applyChangeToValue, findStartOfMentionInPlainText, getComputedStyleLengthProp, getMentions, countSuggestions, getSuggestion, getEndOfLastMention, mapPlainTextIndex, spliceString, makeMentionsMarkup, isIE } from './utils';
 import SuggestionsOverlay from './SuggestionsOverlay';
 import Highlighter from './Highlighter';
 
@@ -329,11 +329,13 @@ var MentionsInput = (_temp = _class = function (_React$Component) {
   };
 
   this.handleChange = function (ev) {
-    // if we are inside iframe, we need to find activeElement within its contentDocument
-    var currentDocument = document.activeElement && document.activeElement.contentDocument || document;
-    if (currentDocument.activeElement !== ev.target) {
-      // fix an IE bug (blur from empty input element with placeholder attribute trigger "input" event)
-      return;
+    if (isIE()) {
+      // if we are inside iframe, we need to find activeElement within its contentDocument
+      var currentDocument = document.activeElement && document.activeElement.contentDocument || document;
+      if (currentDocument.activeElement !== ev.target) {
+        // fix an IE bug (blur from empty input element with placeholder attribute trigger "input" event)
+        return;
+      }
     }
 
     var value = _this3.props.value || '';
